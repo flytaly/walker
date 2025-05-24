@@ -20,6 +20,8 @@ var windows = make(windowmap)
 
 var IsRunning = false
 
+var startWmMutex sync.Mutex
+
 func GetWindows() windowmap {
 	return windows
 }
@@ -37,6 +39,9 @@ var (
 )
 
 func StartWM(ac chan string, dc chan string) {
+	startWmMutex.Lock()
+	defer startWmMutex.Unlock()
+
 	addChan = ac
 	deleteChan = dc
 
